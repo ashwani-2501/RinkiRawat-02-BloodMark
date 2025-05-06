@@ -21,7 +21,6 @@
     font-size: 1rem;
     font-weight: 500;
     background-color: #880433;
-    /* background-color: var(--primary-color); */
     color: var(--white);
     border-radius: 2rem;
     cursor: pointer;
@@ -30,7 +29,6 @@
 
 .btn:hover{
     background-color: #df0f0f;
-    /* background-color: var(--primary-color-dark); */
 }
 a{
     text-decoration: none;
@@ -70,7 +68,6 @@ nav{
 }
 .links a:hover{
     color: #880433;
-    /* color: var(--text-dark); */
 }
 
 .section_container{
