@@ -253,6 +253,10 @@ nav{
 .footer{
     background-color: #880433;
 }
+.donation_card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
 .footer_container{
     display: grid;
     grid-template-columns: 2fr repeat(2,1fr);
