@@ -15,18 +15,19 @@
 </head>
 
 <body>
-    <nav>
-        <div class="nav_logo">BloodMark</div>
-        <ul class="nav_links">
-            <li class="links"><a href="#">Home</a></li>
-            <li class="links"><a href="#">About</a></li>
-            <li class="links"><a href="#">Services</a></li>
-            <li class="links"><a href="#">Contact</a></li>
-            <li class="links"><a href="login.html">SignIn</a></li>
-        </ul>
-        <button class="btn">LogIn</button>
-    </nav>
+    <nav class="navbar">
+    <div class="nav_logo">BloodMark</div>
+    <ul class="nav_links">
+      <li><a href="land.html">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="detection.html">Detect</a></li>
+      <li><a href="donation.html">Donate</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="btn"><a href="login.html">Log In</a></button>
+  </nav>
 
+  
     <header class="section_container header_container">
         <h1 class="section_header">
             Blood Saves Lives.<br> Yours Can Too.
@@ -35,20 +36,56 @@
         <img src="" alt="logo">
     </header>
 
-    <section class="section_conatiner booking_container">
+    <section class="section_container booking_container">
         <div class="booking_nav">
-            <span class="tab" data-target="volunteer">Volunteer</span>
+            <span class="tab active" data-target="volunteer">Volunteer</span>
             <span class="tab" data-target="donor">Donor</span>
             <span class="tab" data-target="needy">Needy</span>
         </div>
 
-        <div id="donor" class="tab_content active">
+        <div id="volunteer" class="tab_content active">
+            <form>
+                <div class="donor_form_group">
+                    <span><i class="ri-user-heart-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" required />
+                            <label>Name</label>
+                        </div>
+                        <p>Your full name</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-phone-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" required />
+                            <label>Phone</label>
+                        </div>
+                        <p>Contact number</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-calendar-event-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" required />
+                            <label>Available Days</label>
+                        </div>
+                        <p>Days you can help</p>
+                    </div>
+                </div>
+                <button class="btn"><i class="ri-send-plane-2-line"></i> Submit</button>
+            </form>
+        </div>
+
+        <div id="donor" class="tab_content">
             <form>
                 <div class="donor_form_group">
                     <span><i class="ri-map-pin-line"></i></span>
                     <div class="donor_input_content">
                         <div class="donor_input_group">
-                            <input type="text">
+                            <input type="text" required />
                             <label>Location</label>
                         </div>
                         <p>Where are you going?</p>
@@ -58,39 +95,76 @@
                     <span><i class="ri-user-3-line"></i></span>
                     <div class="donor_input_content">
                         <div class="donor_input_group">
-                            <input type="number">
+                            <input type="number" required />
                             <label>Donors</label>
                         </div>
-                        <p>Add donors</p>
+                        <p>Number of donors</p>
                     </div>
                 </div>
                 <div class="donor_form_group">
                     <span><i class="ri-calendar-line"></i></span>
                     <div class="donor_input_content">
                         <div class="donor_input_group">
-                            <input type="text">
-                            <label>Donation</label>
+                            <input type="text" required />
+                            <label>Donation Date</label>
                         </div>
                         <p>Add date</p>
                     </div>
                 </div>
                 <div class="donor_form_group">
-                    <span><i class="ri-calendar-line"></i></span>
+                    <span><i class="ri-time-line"></i></span>
                     <div class="donor_input_content">
                         <div class="donor_input_group">
-                            <input type="text">
+                            <input type="text" required />
                             <label>Availability</label>
                         </div>
-                        <p>Add time</p>
+                        <p>Available time</p>
                     </div>
                 </div>
-                <button class="btn"><i class="ri-search-line"></i></button>
+                <button class="btn"><i class="ri-search-line"></i> Search</button>
             </form>
         </div>
 
+        <div id="needy" class="tab_content">
+            <form>
+                <div class="donor_form_group">
+                    <span><i class="ri-hospital-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" required />
+                            <label>Patient Name</label>
+                        </div>
+                        <p>Who needs blood?</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-drop-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" required />
+                            <label>Blood Type</label>
+                        </div>
+                        <p>e.g., A+, B-, O+</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-map-pin-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" required />
+                            <label>Location</label>
+                        </div>
+                        <p>Where is the patient?</p>
+                    </div>
+                </div>
+                <button class="btn"><i class="ri-search-line"></i> Request Help</button>
+            </form>
+        </div>
     </section>
 
-    <section class="section_container support_container">
+
+
+    <section id="about" class="section_container support_container">
         <p class="subheader">BLOOD DONATION SUPPORT</p>
         <h2 class="section_header">Give with confidence — everything you need to know before you donate. </h2>
         <p class="description">Learn about the process, requirements, and how your donation makes a difference.
@@ -191,7 +265,7 @@
             </div>
         </div>
     </section>
-    <footer class="footer">
+    <footer id="footer" class="footer">
         <div class="section_container footer_container">
             <div class="footer_col">
                 <h3>BloodMark</h3>
@@ -207,11 +281,11 @@
             </div>
             <div class="footer_col">
                 <h4>INFORMATION</h4>
-                <p>Home</p>
-                <p>About</p>
-                <p>Services</p>
-                <p>Need</p>
-                <p>Know More</p>
+                <p><a href="#first-page">Home</a></p>
+                <p><a href="">About</a></p>
+                <p><a href="#detect">Detect</a></p>
+                <p><a href="#donate">Donate</a></p>
+                <p><a href="">Know More</a></p>
             </div>
             <div class="footer_col">
                 <h4>CONTACT</h4>
@@ -232,16 +306,31 @@
     </footer>
 
     <script>
-        const faqQuestions = document.querySelectorAll('.faq-question');
-      
-        faqQuestions.forEach(question => {
-          question.addEventListener('click', () => {
-            question.classList.toggle('active');
-            const answer = question.nextElementSibling;
-            answer.classList.toggle('show');
-          });
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.tab_content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.target).classList.add('active');
+            });
         });
-      </script>
+
+        const faqQuestions = document.querySelectorAll('.faq-question');
+
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                question.classList.toggle('active');
+                const answer = question.nextElementSibling;
+                answer.classList.toggle('show');
+            });
+        });
+
+
+    </script>
 
 </body>
 
