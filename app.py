@@ -1,7 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+import numpy as np
 
 from models import db, User, Donation
 
@@ -24,6 +27,10 @@ def load_user(user_id):
 @app.before_first_request
 def create_tables():
     db.create_all()
+
+# Load the trained model
+MODEL_PATH = r"C:\Users\abdhe\OneDrive\Documents\GitHub\BloodMark\model\model.h5"
+model = load_model(MODEL_PATH)
 
 @app.route('/')
 def landing():
@@ -84,21 +91,25 @@ def donate():
 
     return render_template('donation.html')
 
+# API Route for Model Prediction
+@app.route('/predict', methods=['POST'])
+def predict():
+    if 'image' not in request.files:
+        return jsonify({"error": "No image uploaded"}), 400
+
+    file = request.files['image']
+    
+    try:
+        img = load_img(file, target_size=(64, 64))  # Resize to match model input size
+        img_array = img_to_array(img) / 255.0  # Normalize pixel values
+        img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+
+        prediction = model.predict(img_array)
+        predicted_class = np.argmax(prediction)
+
+        return jsonify({"prediction": int(predicted_class)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
-
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
-
-db = SQLAlchemy()
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(256), nullable=False)
-
-class Donation(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    blood_group = db.Column(db.String(10), nullable=False)
-    location = db.Column(db.String(100), nullable=False)
