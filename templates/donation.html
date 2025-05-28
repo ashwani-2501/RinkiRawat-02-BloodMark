@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOODMARK - Donation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/donation.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav_logo">BloodMark</div>
+        <ul class="nav_links">
+            <li><a href="{{ url_for('land') }}">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="{{ url_for('detection') }}">Detect</a></li>
+            <li><a href="{{ url_for('donation') }}">Donate</a></li>
+            <li><a href="#footer">Contact</a></li>
+        </ul>
+        {% if current_user.is_authenticated %}
+            <button class="btn"><a href="{{ url_for('logout') }}">Log Out</a></button>
+        {% else %}
+            <button class="btn"><a href="{{ url_for('login') }}">Log In</a></button>
+        {% endif %}
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+  
+    <header class="section_container header_container">
+        <h1 class="section_header">
+            Blood Saves Lives.<br> Yours Can Too.
+        </h1>
+        <img src="" alt="logo">
+    </header>
+
+    <section class="section_container booking_container">
+        <div class="booking_nav">
+            <span class="tab active" data-target="volunteer">Volunteer</span>
+            <span class="tab" data-target="donor">Donor</span>
+            <span class="tab" data-target="needy">Needy</span>
+        </div>
+
+        <div id="volunteer" class="tab_content active">
+            <form action="{{ url_for('donation_volunteer') }}" method="POST">
+                <div class="donor_form_group">
+                    <span><i class="ri-user-heart-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" name="name" required />
+                            <label>Name</label>
+                        </div>
+                        <p>Your full name</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-phone-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" name="phone" pattern="[0-9]{10}" required />
+                            <label>Phone</label>
+                        </div>
+                        <p>Contact number</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-calendar-event-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="date" name="available_days" required />
+                            <label>Available Days</label>
+                        </div>
+                        <p>Days you can help</p>
+                    </div>
+                </div>
+                <button class="btn"><i class="ri-send-plane-2-line"></i> Submit</button>
+            </form>
+        </div>
+
+        <div id="donor" class="tab_content">
+            <form action="{{ url_for('donation_donor') }}" method="POST">
+                <div class="donor_form_group">
+                    <span><i class="ri-map-pin-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" name="location" required />
+                            <label>Location</label>
+                        </div>
+                        <p>Where are you going?</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-user-3-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="number" name="donors" min="1" required />
+                            <label>Donors</label>
+                        </div>
+                        <p>Number of donors</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-calendar-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="date" name="donation_date" required />
+                            <label>Donation Date</label>
+                        </div>
+                        <p>Add date</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-time-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="time" name="availability" required />
+                            <label>Availability</label>
+                        </div>
+                        <p>Available time</p>
+                    </div>
+                </div>
+                <button class="btn"><i class="ri-search-line"></i> Search</button>
+            </form>
+        </div>
+
+        <div id="needy" class="tab_content">
+            <form action="{{ url_for('donation_needy') }}" method="POST">
+                <div class="donor_form_group">
+                    <span><i class="ri-hospital-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" name="patient_name" required />
+                            <label>Patient Name</label>
+                        </div>
+                        <p>Who needs blood?</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-drop-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" name="blood_type" required />
+                            <label>Blood Type</label>
+                        </div>
+                        <p>e.g., A+, B-, O+</p>
+                    </div>
+                </div>
+                <div class="donor_form_group">
+                    <span><i class="ri-map-pin-line"></i></span>
+                    <div class="donor_input_content">
+                        <div class="donor_input_group">
+                            <input type="text" name="location" required />
+                            <label>Location</label>
+                        </div>
+                        <p>Where is the patient?</p>
+                    </div>
+                </div>
+                <button class="btn"><i class="ri-search-line"></i> Request Help</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="about" class="section_container support_container">
+        <p class="subheader">BLOOD DONATION SUPPORT</p>
+        <h2 class="section_header">Give with confidence — everything you need to know before you donate. </h2>
+        <p class="description">Learn about the process, requirements, and how your donation makes a difference.
+        </p>
+        <div class="support_grid">
+            <div class="support_content">
+                <span class="number">01</span>
+                <h4>Eligibility Requirements</h4>
+                <p>
+                    Understand who can donate, how often, and what factors (such as age, weight, and health) impact your eligibility. Stay informed and prepared for your donation.
+                </p>
+                <span class="number">02</span>
+                <h4>Types of Donation</h4>
+                <p>
+                    Learn about the different ways you can help — from whole blood to plasma and platelet donation — and how each type supports patients in need.
+                </p>
+                <span class="number">03</span>
+                <h4>Preparing for Your Donation</h4>
+                <p>
+                    Simple tips to ensure a smooth experience: stay hydrated, eat well, and bring ID. Discover how to make your donation easy and effective.
+                </p>
+            </div>
+            <div class="support_image">
+                <img src="{{ url_for('static', filename='img/donation1.jpg') }}" alt="">
+            </div>
+        </div>
+    </section>
+
+    <section class="section_container experience_container">
+        <div class="experience_image">
+            <img src="{{ url_for('static', filename='img/donation2.jpg') }}" alt="i1">
+        </div>
+        <div class="experience_content">
+            <h2 class="section_header">DONATION EXPERIENCE</h2>
+            <div class="experience_grid">
+                <div class="experience_details">
+                    <h4>Welcoming Atmosphere</h4>
+                    <p>Our centers are designed to be warm and inviting, with friendly staff and a safe, hygienic environment to put you at ease.</p>
+                </div>
+                <div class="experience_details">
+                    <h4>Donor Lounge</h4>
+                    <p>Relax after your donation with complimentary snacks and drinks. A comfortable space to rest and recover, and a chance to connect with fellow donors.</p>
+                </div>
+                <div class="experience_details">
+                    <h4>Express Donation Kiosks</h4>
+                    <p>Short on time? Use our streamlined check-in and fast-track donation options designed for returning donors on tight schedules.</p>
+                </div>
+                <div class="experience_details">
+                    <h4>Support Every Step</h4>
+                    <p>Our team is here to guide you from start to finish — from questions about eligibility to post-donation care and follow-up.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq">
+        <div class="section_container faq_container">
+            <h2 class="section_header">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-question">Is it safe to donate blood?</div>
+                <div class="faq-answer">Yes. All equipment is sterile and single-use. Our trained professionals ensure a safe and comfortable experience for every donor.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How long does it take?</div>
+                <div class="faq-answer">The entire process takes about 45 minutes to 1 hour. The actual donation is just 8-10 minutes.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Can I donate if I have a tattoo or piercing?</div>
+                <div class="faq-answer">Yes, but you may need to wait 3-6 months, depending on local guidelines and how the procedure was performed.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How often can I donate?</div>
+                <div class="faq-answer">
+                    <ul>
+                        <li><strong>Whole blood:</strong> Every 56 days</li>
+                        <li><strong>Platelets:</strong> Every 7 days (up to 24 times/year)</li>
+                        <li><strong>Plasma:</strong> Every 28 days</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="footer">
+        <div class="section_container footer_container">
+            <div class="footer_col">
+                <h3>BloodMark</h3>
+                <p>
+                    With a strong commitment to accessible healthcare and a passion for cutting-edge technology, BioTouch Diagnostics delivers instant, reliable blood group identification—one fingerprint at a time.
+                </p>
+                <p>
+                    From compassionate care to life-saving donations, we bring communities together—ensuring safe, simple, and meaningful experiences that change lives.
+                </p>
+            </div>
+            <div class="footer_col">
+                <h4>INFORMATION</h4>
+                <p><a href="{{ url_for('land') }}">Home</a></p>
+                <p><a href="{{ url_for('land') }}#about">About</a></p>
+                <p><a href="{{ url_for('detection') }}">Detect</a></p>
+                <p><a href="{{ url_for('donation') }}">Donate</a></p>
+                <p><a href="#">Know More</a></p>
+            </div>
+            <div class="footer_col">
+                <h4>CONTACT</h4>
+                <p>Support</p>
+                <p>Media</p>
+                <p>Socials</p>
+            </div>
+        </div>
+        <div class="section_container footer_bar">
+            <p>Copyright © 2025 BloodMark. All rights reserved.</p>
+            <div class="socials">
+                <span><i class="ri-facebook-fill"></i></span>
+                <span><i class="ri-twitter-fill"></i></span>
+                <span><i class="ri-instagram-line"></i></span>
+                <span><i class="ri-youtube-fill"></i></span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.tab_content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.target).classList.add('active');
+            });
+        });
+
+        const faqQuestions = document.querySelectorAll('.faq-question');
+
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                question.classList.toggle('active');
+                const answer = question.nextElementSibling;
+                answer.classList.toggle('show');
+            });
+        });
+    </script>
+</body>
+
+</html>

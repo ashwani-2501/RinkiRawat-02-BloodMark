@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOODMARK</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/land.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav_logo">BloodMark</div>
+        <ul class="nav_links">
+            <li><a href="{{ url_for('land') }}">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="{{ url_for('detection') }}">Detect</a></li>
+            <li><a href="{{ url_for('donation') }}">Donate</a></li>
+            <li><a href="#footer">Contact</a></li>
+        </ul>
+        {% if current_user.is_authenticated %}
+            <button class="btn"><a href="{{ url_for('logout') }}">Log Out</a></button>
+        {% else %}
+            <button class="btn"><a href="{{ url_for('login') }}">Log In</a></button>
+        {% endif %}
+    </nav>
+
+    <header id="first-page" class="section_container header_container">
+        <h1 class="section_header">
+            Smart Blood Matching.<br>Real-Time Lifesaving
+        </h1>
+    </header>
+
+    <section id="about" class="section_container plan_container">
+        <p class="subheader">BLOOD GROUP IDENTIFICATION</p>
+        <h2 class="section_header">Know your blood type instantly and securely</h2>
+        <p class="description">Explore how advanced fingerprint-based technology helps identify blood groups quickly—enhancing safety, accuracy, and accessibility in healthcare.
+        </p>
+        <div class="plan_grid">
+            <div class="plan_content">
+                <span class="number">01</span>
+                <h4>What is Fingerprint-Based Blood Typing?</h4>
+                <p>
+                    Discover the innovative technology that uses biometric fingerprint data to determine your blood group—fast, non-invasive, and reliable.
+                </p>
+                <span class="number">02</span>
+                <h4>Benefits of Biometric Identification</h4>
+                <p>
+                    Ensure accuracy and reduce human error with biometric systems that streamline donor registration, emergency care, and medical records access.
+                </p>
+                <span class="number">03</span>
+                <h4>Where and How to Access This Service</h4>
+                <p>
+                    Learn about facilities offering fingerprint-based blood group identification and how to access these services in your smartphone.
+                </p>
+            </div>
+            <div class="plan_image">
+                <img src="https://plus.unsplash.com/premium_photo-1674582745184-054ce5fc742b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZmluZ2VycHJpbnR8ZW58MHx8MHx8fDA%3D" alt="img1">
+                <img src="https://plus.unsplash.com/premium_photo-1723187717061-07e632d3edf8?q=80&w=2032&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="img2">
+                <img src="https://images.unsplash.com/photo-1616332012084-9ac36f0a7b3a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGZpbmdlcnByaW50fGVufDB8fDB8fHww" alt="img3">
+            </div>
+        </div>
+    </section>
+
+    <section class="donation">
+        <div class="section_container donation_container">
+            <div class="donation_header">
+                <h2 class="section_header">
+                    Donate to Save Lives Around the World
+                </h2>
+                <button class="view_all">
+                    <a href="{{ url_for('donation') }}">Donate Now</a>
+                </button>
+            </div>
+            <div class="donation_grid">
+                <div class="donation_card">
+                    <span><i class="ri-calendar-2-line"></i></span>
+                    <h4>Book & Donate</h4>
+                    <p>With "Book & Donate", you can easily schedule your donation, relax, and let us guide you through a seamless and life-saving experience.</p> 
+                </div>
+                <div class="donation_card">
+                    <span><i class="ri-shield-check-line"></i></span>
+                    <h4>Smart Donor Checklist</h4>
+                    <p>Introducing the Smart Donor Checklist—your personalized guide to prepare for donation day, ensuring you're informed, ready, and safe.</p> 
+                </div>
+                <div class="donation_card">
+                    <span><i class="ri-bookmark-2-line"></i></span>
+                    <h4>Give More, Save More</h4>
+                    <p>Whether it's through loyalty rewards, donor recognition, or referral programs—every act of giving brings more value and more lives saved.</p> 
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="footer">
+        <div class="section_container footer_container">
+            <div class="footer_col">
+                <h3>BloodMark</h3>
+                <p>
+                    With a strong commitment to accessible healthcare and a passion for cutting-edge technology, BioTouch Diagnostics delivers instant, reliable blood group identification—one fingerprint at a time.
+                </p>
+                <p>
+                    From compassionate care to life-saving donations, we bring communities together—ensuring safe, simple, and meaningful experiences that change lives.
+                </p>
+            </div>
+            <div class="footer_col">
+                <h4>INFORMATION</h4>
+                <p><a href="{{ url_for('land') }}">Home</a></p>
+                <p><a href="{{ url_for('land') }}#about">About</a></p>
+                <p><a href="{{ url_for('detection') }}">Detect</a></p>
+                <p><a href="{{ url_for('donation') }}">Donate</a></p>
+                <p><a href="#">Know More</a></p>
+            </div>
+            <div class="footer_col">
+                <h4>CONTACT</h4>
+                <p>Support</p>
+                <p>Media</p>
+                <p>Socials</p>
+            </div>
+        </div>
+        <div class="section_container footer_bar">
+            <p>Copyright © 2025 BloodMark. All rights reserved.</p>
+            <div class="socials">
+                <span><i class="ri-facebook-fill"></i></span>
+                <span><i class="ri-twitter-fill"></i></span>
+                <span><i class="ri-instagram-line"></i></span>
+                <span><i class="ri-youtube-fill"></i></span>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

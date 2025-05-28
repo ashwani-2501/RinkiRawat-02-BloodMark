@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AI-powered fingerprint blood type detection. Fast, accurate, and secure with BloodMark." />
+    <title>BloodMark - Know Your Type</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detection.css') }}" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav_logo">BloodMark</div>
+        <ul class="nav_links">
+            <li><a href="{{ url_for('land') }}">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="{{ url_for('detection') }}">Detect</a></li>
+            <li><a href="{{ url_for('donation') }}">Donate</a></li>
+            <li><a href="#footer">Contact</a></li>
+        </ul>
+        {% if current_user.is_authenticated %}
+            <button class="btn"><a href="{{ url_for('logout') }}">Log Out</a></button>
+        {% else %}
+            <button class="btn"><a href="{{ url_for('login') }}">Log In</a></button>
+        {% endif %}
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <header class="header section_container">
+        <h1>Know your type.<br />Be someone's lifeline.</h1>
+        <p>Upload your fingerprint to detect your blood type using AI-powered detection.</p>
+        <button class="btn" onclick="document.getElementById('upload').scrollIntoView({ behavior: 'smooth' });">Start Now</button>
+    </header>
+
+    <section id="upload" class="upload_section section_container">
+        <h2>Fingerprint Detection</h2>
+        <p>Submit your fingerprint image to begin blood type analysis.</p>
+        <form class="upload_form" action="{{ url_for('detection') }}" method="POST" enctype="multipart/form-data">
+            <label for="fingerprint">Upload Fingerprint Image</label>
+            <input type="file" id="fingerprint" name="fingerprint" accept="image/png, image/jpeg" required />
+            <small>Supported formats: JPG, PNG (Max size: 5MB)</small>
+            <button type="submit" class="btn">Upload</button>
+        </form>
+    </section>
+
+    <section id="about" class="features section_container">
+        <h2>Why Choose BloodMark?</h2>
+        <div class="features_grid">
+            <div class="feature_item">
+                <h3>Accurate AI Detection</h3>
+                <p>Advanced algorithms deliver reliable blood type results from your fingerprint.</p>
+            </div>
+            <div class="feature_item">
+                <h3>Data Privacy</h3>
+                <p>Your fingerprint is processed securely, never stored, and kept fully confidential.</p>
+            </div>
+            <div class="feature_item">
+                <h3>Fast Results</h3>
+                <p>Receive your result in under a minute—no waiting, no hassle.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="footer">
+        <div class="section_container footer_container">
+            <div class="footer_col">
+                <h3>BloodMark</h3>
+                <p>
+                    With a strong commitment to accessible healthcare and a passion for cutting-edge technology,
+                    BioTouch Diagnostics delivers instant, reliable blood group identification—one fingerprint at a time.
+                </p>
+                <p>
+                    From compassionate care to life-saving donations, we bring communities together—ensuring safe,
+                    simple, and meaningful experiences that change lives.
+                </p>
+            </div>
+            <div class="footer_col">
+                <h4>INFORMATION</h4>
+                <p><a href="{{ url_for('land') }}">Home</a></p>
+                <p><a href="{{ url_for('land') }}#about">About</a></p>
+                <p><a href="{{ url_for('detection') }}">Detect</a></p>
+                <p><a href="{{ url_for('donation') }}">Donate</a></p>
+                <p><a href="#">Know More</a></p>
+            </div>
+            <div class="footer_col">
+                <h4>CONTACT</h4>
+                <p>Support</p>
+                <p>Media</p>
+                <p>Socials</p>
+            </div>
+        </div>
+        <div class="section_container footer_bar">
+            <p>Copyright © 2025 BloodMark. All rights reserved.</p>
+            <div class="socials">
+                <span><i class="ri-facebook-fill"></i></span>
+                <span><i class="ri-twitter-fill"></i></span>
+                <span><i="ri-instagram-line"></i></span>
+                <span><i class="ri-youtube-fill"></i></span>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener("click", function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute("href"));
+                if (target) {
+                    target.scrollIntoView({ behavior: "smooth" });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -223,13 +223,70 @@ a {
 }
 
 .footer {
-  width: 100%;
-  text-align: center;
-  padding: 2rem 1rem;
-  font-size: 0.95rem;
-  color: var(--text-light);
-  /* background-color: var(--white);
-  box-shadow: var(--shadow); */
+    background-color: #880433;
+}
+
+.footer_container {
+    display: grid;
+    grid-template-columns: 2fr repeat(2, 1fr);
+    gap: 5rem;
+}
+
+.footer_col h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 1rem;
+}
+
+.footer_col h4 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 1rem;
+}
+
+.footer_col p {
+    color: var(--extra-light);
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: .3s;
+}
+
+.footer_col p a {
+    color: var(--extra-light);
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: .3s;
+}
+
+.footer_col p:hover {
+    color: var(--white);
+}
+
+.footer_bar {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid var(--extra-light);
+}
+
+.footer_bar p {
+    font-size: 0.9rem;
+    color: var(--extra-light);
+}
+
+.socials {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.socials span {
+    font-size: 1.2rem;
+    color: var(--extra-light);
 }
 
 @keyframes fadeIn {

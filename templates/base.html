@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BloodMark{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav_logo">BloodMark</div>
+        <ul class="nav_links">
+            <li><a href="{{ url_for('land') }}">Home</a></li>
+            <li><a href="{{ url_for('land') }}#about">About</a></li>
+            <li><a href="{{ url_for('detection') }}">Detect</a></li>
+            <li><a href="{{ url_for('donation') }}">Donate</a></li>
+            <li><a href="{{ url_for('land') }}#footer">Contact</a></li>
+        </ul>
+        {% if current_user.is_authenticated %}
+            <button class="btn"><a href="{{ url_for('logout') }}">Log Out</a></button>
+        {% else %}
+            <button class="btn"><a href="{{ url_for('login') }}">Log In</a></button>
+        {% endif %}
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
