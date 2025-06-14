@@ -13,7 +13,6 @@ class User(UserMixin, db.Model):
 
 class Donation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(50), nullable=False)  # Volunteer, Donor, Needy
     name = db.Column(db.String(150))
     phone = db.Column(db.String(20))
     available_days = db.Column(db.String(50))

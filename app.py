@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename  # Add this line
 from models import db, User, Donation, DonorRegistration
 import tensorflow as tf
 import numpy as np
@@ -10,8 +11,13 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24).hex()
+# Use absolute path for SQLite database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/abdhe/OneDrive/Documents/GitHub/BloodMark/instance/bloodmark.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Ensure the instance directory exists
+instance_dir = os.path.join(os.path.dirname(__file__), 'instance')
+os.makedirs(instance_dir, exist_ok=True)
 
 db.init_app(app)
 login_manager = LoginManager(app)
@@ -64,6 +70,9 @@ def register():
 @app.route('/detection', methods=['GET', 'POST'])
 @login_required
 def detection():
+    upload_dir = os.path.join(os.path.dirname(__file__), 'static', 'uploads')
+    os.makedirs(upload_dir, exist_ok=True)
+    predicted_class = None  # Initialize variable for template
     if request.method == 'POST':
         if 'fingerprint' not in request.files:
             flash('No file uploaded.')
@@ -75,25 +84,32 @@ def detection():
         if not file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
             flash('Invalid file type. Use PNG or JPG.')
             return redirect(url_for('detection'))
-        img_path = os.path.join('static/uploads', file.filename)
-        file.save(img_path)
-        img = load_img(img_path, target_size=(64, 64))
-        img_array = img_to_array(img) / 255.0
-        img_array = np.expand_dims(img_array, axis=0)
-        class_names = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
-        prediction = model.predict(img_array)
-        predicted_class = class_names[np.argmax(prediction)]
-        new_donation = Donation(
-            type='Detection',
-            blood_type=predicted_class,
-            location='Unknown',
-            user_id=current_user.id
-        )
-        db.session.add(new_donation)
-        db.session.commit()
-        flash(f'Predicted blood group: {predicted_class}')
-        return redirect(url_for('land'))
-    return render_template('detection.html')
+        if not file:
+            flash('File is empty or corrupted.')
+            return redirect(url_for('detection'))
+        filename = secure_filename(file.filename)
+        img_path = os.path.join(upload_dir, filename)
+        try:
+            file.save(img_path)
+            img = load_img(img_path, target_size=(64, 64))
+            img_array = img_to_array(img) / 255.0
+            img_array = np.expand_dims(img_array, axis=0)
+            class_names = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+            prediction = model.predict(img_array)
+            predicted_class = class_names[np.argmax(prediction)]
+            new_donation = Donation(
+                blood_type=predicted_class,
+                location='Unknown',
+                user_id=current_user.id
+            )
+            db.session.add(new_donation)
+            db.session.commit()
+            flash(f'Predicted blood group: {predicted_class}')
+            return render_template('detection.html', blood_type=predicted_class)
+        except Exception as e:
+            flash(f'Error processing file: {str(e)}')
+            return redirect(url_for('detection'))
+    return render_template('detection.html', blood_type=predicted_class)
 
 @app.route('/donation/volunteer', methods=['POST'])
 @login_required
@@ -102,7 +118,6 @@ def donation_volunteer():
     phone = request.form['phone']
     available_days = request.form['available_days']
     new_donation = Donation(
-        type='Volunteer',
         name=name,
         phone=phone,
         available_days=available_days,
@@ -121,7 +136,6 @@ def donation_donor():
     donation_date = request.form['donation_date']
     availability = request.form['availability']
     new_donation = Donation(
-        type='Donor',
         location=location,
         donors=donors,
         donation_date=donation_date,
@@ -140,7 +154,6 @@ def donation_needy():
     blood_type = request.form['blood_type']
     location = request.form['location']
     new_donation = Donation(
-        type='Needy',
         patient_name=patient_name,
         blood_type=blood_type,
         location=location,
